@@ -38,6 +38,9 @@ app_pass.txt
 *.py[cod]
 *$py.class
 
+# Node #
+node_modules/
+
 # Distribution / packaging
 .Python build/
 develop-eggs/
