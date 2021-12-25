@@ -14,6 +14,10 @@ export default class CreateRoomPage extends Component {
     defaultVotes = 2;
     constructor(props) {
         super(props);
+        this.state = {
+            guestCanPause: true,
+            votesToSkip: this.defaultVotes
+        };
     }
 
     render(){
@@ -46,6 +50,31 @@ export default class CreateRoomPage extends Component {
                             />
                         </RadioGroup>
                     </FormControl>
+                </Grid>
+                <Grid item xs={12} align="center">
+                    <FormControl>
+                        <TextField
+                            required={true}
+                            type="number"
+                            defaultValue={this.defaultVotes}
+                            inputProps={{min:1, style: {textAlign: "center"},}}
+                        />
+                        <FormHelperText>
+                            <div align="center">
+                                Votes Required To Skip Song
+                            </div>
+                        </FormHelperText>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} align="center">
+                    <Button color="primary" variant="contained">
+                        Create A Room
+                    </Button>
+                </Grid>
+                <Grid item xs={12} align="center">
+                    <Button color="secondary" variant="contained" to="/" component={Link}>
+                        Back
+                    </Button>
                 </Grid>
             </Grid>
         )
