@@ -9,4 +9,14 @@ export default class Room extends Component {
             isHost: false,
         }
     }
+
+    render() {
+        return (
+            <div>
+                <p>Votes: {this.state.votesToSkip}</p>
+                <p>Guest can pause: {this.state.guestCanPause}</p>
+                <p>Host: {this.state.isHost}</p>
+            </div>
+        )
+    }
 }
