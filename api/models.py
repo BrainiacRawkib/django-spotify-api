@@ -8,7 +8,11 @@ def generate_unique_code():
     while True:
         code = ''.join(random.choices(string.ascii_letters, k=length))
         if Room.objects.filter(code=code).exists():
-            continue
+            # if True, continue generating unique code
+            generate_unique_code()
+        else:
+            # if False, break.
+            break
         # if Room.objects.filter(code=code).count() == 0:
         #     break
     return code
