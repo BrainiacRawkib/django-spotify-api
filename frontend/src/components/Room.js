@@ -8,11 +8,13 @@ export default class Room extends Component {
             guestCanPause: false,
             isHost: false,
         }
+        this.roomCode = this.props.match.params.roomCode
     }
 
     render() {
         return (
             <div>
+                <h3>{this.roomCode}</h3>
                 <p>Votes: {this.state.votesToSkip}</p>
                 <p>Guest can pause: {this.state.guestCanPause}</p>
                 <p>Host: {this.state.isHost}</p>
