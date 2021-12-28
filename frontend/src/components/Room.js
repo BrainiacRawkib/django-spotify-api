@@ -27,7 +27,12 @@ export default class Room extends Component {
     }
 
     leaveButtonPressed() {
-
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+        }
+        fetch('/api/leave-room/', requestOptions)
+            .then((_response) => {this.props.history.push('/')})
     }
 
     render() {
@@ -54,7 +59,7 @@ export default class Room extends Component {
                     </Typography>
                 </Grid>
                 <Grid item xs={12} align="center">
-                    <Button variant="contained" color="secondary" to="/" component={Link}>
+                    <Button variant="contained" color="secondary" onClick={this.leaveButtonPressed}>
                         Leave Room
                     </Button>
                 </Grid>
