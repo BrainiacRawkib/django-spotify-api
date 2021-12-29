@@ -81,6 +81,7 @@ export default class CreateRoomPage extends Component {
                         errorMsg: "Error updating room..."
                     })
                 }
+                this.props.updateCallback();
             })
             .then((data) => this.props.history.push('/room/' + data.code))
     }
