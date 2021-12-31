@@ -10,6 +10,7 @@ REDIRECT_URI = settings.REDIRECT_URI
 CLIENT_ID = settings.CLIENT_ID
 CLIENT_SECRET = settings.CLIENT_SECRET
 
+
 class AuthURL(APIView):
     def get(self, request, format=None):
         scopes = "user-read-playback-state user-modify-playback-state user-read-currently-playing"
@@ -37,3 +38,9 @@ def spotify_callback(request, format=None):
         'client_secret': CLIENT_SECRET
     }
     response = post(url, data=payload).json()
+
+    access_token = response.get('access_token')
+    token_type = response.get('token_type')
+    refresh_token = response.get('refresh_token')
+    expires_in = response.get('expires_in')
+    error = response.get('error')
