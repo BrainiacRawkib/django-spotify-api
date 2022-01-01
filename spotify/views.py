@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from requests import Request, post
 from rest_framework import status
 from rest_framework.response import Response
-from .utils import update_or_create_user_tokens
+from .utils import update_or_create_user_tokens, is_spotify_authenticated
 
 
 REDIRECT_URI = settings.REDIRECT_URI
@@ -55,3 +55,10 @@ def spotify_callback(request, format=None):
                                  expires_in,
                                  refresh_token)
     return redirect('frontend:')
+
+
+class IsAuthenticated(APIView):
+
+    def get(self, request, format=None):
+        is_authenticated = is_spotify_authenticated(request.session.session_key)
+        return Response({'status': is_authenticated}, status=status.HTTP_200_OK)
