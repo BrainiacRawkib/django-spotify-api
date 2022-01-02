@@ -21,8 +21,16 @@ export default class Room extends Component {
         this.renderSettingsButton = this.renderSettingsButton.bind(this);
         this.getRoomDetails = this.getRoomDetails.bind(this);
         this.authenticateSpotify = this.authenticateSpotify.bind(this);
+        this.getCurrentSong = this.getCurrentSong.bind(this);
         this.getRoomDetails();
-        this.getCurrentSong();
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(this.getCurrentSong, 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     getRoomDetails(){
@@ -62,7 +70,9 @@ export default class Room extends Component {
 
     authenticateSpotify() {
         fetch('/spotify/is-authenticated/')
-            .then((response) => response.json())
+            .then((response) => {
+                response.json();
+            })
             .then((data) => {
                 this.setState({spotifyAuthenticated: data.status})
                 if (!data.status) {
