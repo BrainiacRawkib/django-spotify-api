@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 from requests import Request, post
 from rest_framework import status
 from rest_framework.response import Response
-from .utils import update_or_create_user_tokens, is_spotify_authenticated
+from api.models import Room
+from .utils import *
 
 
 REDIRECT_URI = settings.REDIRECT_URI
@@ -62,3 +63,16 @@ class IsAuthenticated(APIView):
     def get(self, request, format=None):
         is_authenticated = is_spotify_authenticated(request.session.session_key)
         return Response({'status': is_authenticated}, status=status.HTTP_200_OK)
+
+
+class CurrentSong(APIView):
+
+    def get(self, request, format=None):
+        room_code = request.session.get('room_code')
+        room = Room.objects.filter(code=room_code)[0]
+        host = room.host
+        endpoint = '/player/currently-playing'
+        response = execute_spotify_api_request(host, endpoint)
+        print(response)
+
+        return Response(response, status=status.HTTP_200_OK)
