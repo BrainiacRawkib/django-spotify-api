@@ -54,7 +54,10 @@ export default class Room extends Component {
                     return response.json();
                 }
             })
-            .then((data) => this.setState({song: data}))
+            .then((data) => {
+                this.setState({song: data});
+                console.log(data);
+            })
     }
 
     authenticateSpotify() {
