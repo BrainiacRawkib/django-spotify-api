@@ -90,7 +90,7 @@ class CurrentSong(APIView):
 
         artist_string = ''
 
-        for i, artist in enumerate(item['artist'], start=1):
+        for i, artist in enumerate(item['artists'], start=1):
             if i > 1:
                 artist_string += ', '
             name = artist['name']
