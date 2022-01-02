@@ -133,7 +133,7 @@ export default class Room extends Component {
                         Code: {this.roomCode}
                     </Typography>
                 </Grid>
-                {this.state.song}
+                {/*{this.state.song}*/}
                 {this.state.isHost ? this.renderSettingsButton() : null}
                 <Grid item xs={12} align="center">
                     <Button variant="contained" color="secondary" onClick={this.leaveButtonPressed}>

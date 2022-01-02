@@ -80,31 +80,34 @@ class CurrentSong(APIView):
 
         if 'error' in response or 'item' not in response:
             return Response({}, status=status.HTTP_204_NO_CONTENT)
-        item = response['item']
 
-        duration = item['duration_ms']
-        progress = response['progress_ms']
-        album_cover = item['album']['images'][0]['url']
-        is_playing = response['is_playing']
-        song_id = item['id']
+        if response['currently_playing_type'] == 'track':
+            item = response['item']
 
-        artist_string = ''
+            duration = item['duration_ms']
+            progress = response['progress_ms']
+            album_cover = item['album']['images'][0]['url']
+            is_playing = response['is_playing']
+            song_id = item['id']
 
-        for i, artist in enumerate(item['artists'], start=1):
-            if i > 1:
-                artist_string += ', '
-            name = artist['name']
-            artist_string += name
+            artist_string = ''
 
-        song = {
-            'title': item['name'],
-            'artist': artist_string,
-            'duration': duration,
-            'time': progress,
-            'image_url': album_cover,
-            'is_playing': is_playing,
-            'votes': 0,
-            'id': song_id
-        }
+            for i, artist in enumerate(item['artists'], start=1):
+                if i > 1:
+                    artist_string += ', '
+                name = artist['name']
+                artist_string += name
 
-        return Response(song, status=status.HTTP_200_OK)
+            song = {
+                'title': item['name'],
+                'artist': artist_string,
+                'duration': duration,
+                'time': progress,
+                'image_url': album_cover,
+                'is_playing': is_playing,
+                'votes': 0,
+                'id': song_id
+            }
+            return Response(song, status=status.HTTP_200_OK)
+        else:
+            return Response(response, status=status.HTTP_200_OK)
