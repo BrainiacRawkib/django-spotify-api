@@ -69,9 +69,13 @@ class CurrentSong(APIView):
 
     def get(self, request, format=None):
         room_code = request.session.get('room_code')
-        room = Room.objects.filter(code=room_code)[0]
+        room = Room.objects.filter(code=room_code)
+        if room.exists():
+            room = room[0]
+        else:
+            return Response({'message': 'Room not found'}, status=status.HTTP_404_NOT_FOUND)
         host = room.host
-        endpoint = '/player/currently-playing'
+        endpoint = 'player/currently-playing'
         response = execute_spotify_api_request(host, endpoint)
         print(response)
 
