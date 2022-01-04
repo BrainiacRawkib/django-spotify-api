@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
-import {Grid, Button, Typography, ButtonGroup} from "@material-ui/core";
+import {Grid, Button, Typography} from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import MusicPlayer from "./MusicPlayer";
 
@@ -43,11 +42,12 @@ export default class Room extends Component {
                 }
                 return response.json()
             })
-            .then((data) => {this.setState({
+            .then((data) => {
+                this.setState({
                     votesToSkip: data.votes_to_skip,
                     guestCanPause: data.guest_can_pause,
                     isHost: data.is_host,
-                })
+                });
                 if (this.state.isHost) {
                     this.authenticateSpotify();
                 }
@@ -76,6 +76,7 @@ export default class Room extends Component {
             })
             .then((data) => {
                 this.setState({spotifyAuthenticated: data.status})
+                console.log(data.status)
                 if (!data.status) {
                     fetch('/spotify/get-auth-url/')
                         .then((response) => response.json())
