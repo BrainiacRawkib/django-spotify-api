@@ -1,11 +1,12 @@
 from django.shortcuts import redirect
-from django.conf import settings
 from rest_framework.views import APIView
 from requests import Request, post
 from rest_framework import status
 from rest_framework.response import Response
 from api.models import Room
+from .models import Vote
 from .utils import *
+from django.conf import settings
 
 
 REDIRECT_URI = settings.REDIRECT_URI
@@ -108,9 +109,19 @@ class CurrentSong(APIView):
                 'votes': 0,
                 'id': song_id
             }
+            self.update_room_song(room, song_id)
+
             return Response(song, status=status.HTTP_200_OK)
         else:
             return Response(response, status=status.HTTP_200_OK)
+
+    def update_room_song(self, room, song_id):
+        current_song = room.current_song
+
+        if current_song != song_id:
+            room.current_song = song_id
+            room.save(update_fields=['current_song'])
+            votes = Vote.objects.filter(room=room).delete()
 
 
 class PauseSong(APIView):
